@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portfolio – Graphic Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#ededed;--paper:#000;--grey:#d3d5d7;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;height:700vh;background:var(--grey);font-family:'Hanken Grotesk',system-ui,sans-serif;color:var(--ink)}
+#persp{position:fixed;inset:0;perspective:1600px;overflow:hidden}
+#stage{position:absolute;inset:0;background:var(--paper);overflow:hidden;box-shadow:0 60px 120px rgba(0,0,0,.35)}
+@keyframes enter{from{transform:translate3d(16vw,20vh,-900px) rotateX(58deg) rotateZ(-32deg) scale(.7)}to{transform:none}}
+@media (prefers-reduced-motion:no-preference){#stage{animation:enter 2.2s cubic-bezier(.65,0,.2,1) .15s both}}
+canvas#gl{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+.big{position:absolute;left:50%;z-index:1;font-family:Anton,Impact,'Arial Narrow',sans-serif;text-transform:uppercase;line-height:.88;letter-spacing:-.01em;color:var(--ink);display:inline-block;white-space:nowrap;transform:translateX(-50%)}
+#h1{top:60%;transform:translate(-50%,-50%);mix-blend-mode:difference}
+#h1 .w:nth-of-type(2){margin-left:15vw}
+#bg{position:absolute;inset:0;z-index:0}
+#bg i,#bg b{position:absolute;top:0;bottom:0;width:50%}
+#bg i{left:0;background:#0c0a09 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
+#bg b{right:0;background:radial-gradient(70% 60% at 35% 28%,#fff,#e3e4e6 55%,#c9cbce)}
+#bg::after{content:"";position:absolute;left:0;right:0;top:58%;bottom:0;background:linear-gradient(rgba(10,10,10,0),#0a0a0a)}
+.pill{position:absolute;left:50%;bottom:calc(6vh + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#000;color:#fff;border:1px solid #3a3a3a;border-radius:999px;padding:.8em 2.2em;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}
+.gl{position:absolute;border:1px solid #5a5a5a;border-right:0;border-bottom:0}
+nav,.logo{mix-blend-mode:difference}
+.cta{border-radius:999px;background:#000}
+#h4{bottom:7vh}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-top:.06em}
+.w i{display:inline-block;font-style:normal;will-change:transform;transform:translateY(105%)}
+.lay{position:absolute;inset:0;z-index:4;pointer-events:none;visibility:hidden}
+.lay a,.lay button{pointer-events:auto}
+#wipe{position:absolute;inset:0;z-index:3;background:#121212;clip-path:polygon(0 0,0 0,0 100%,0 100%)}
+#t2{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:90vw;text-align:center;font-family:Anton,Impact,sans-serif;text-transform:uppercase;font-size:clamp(3rem,11vw,12rem);line-height:.9}
+.left{position:absolute;left:6vw;top:50%;transform:translateY(-50%);width:min(44vw,640px)}
+#t3{font-family:Anton,Impact,sans-serif;text-transform:uppercase;font-size:clamp(2.6rem,6.4vw,6.6rem);line-height:.92;margin:0}
+.left p{margin:1.6rem 0;color:#b5b5b5;line-height:1.6;max-width:38ch;font-size:1rem}
+.btn{display:inline-block;border:1px solid var(--ink);color:var(--ink);text-decoration:none;text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;padding:.9em 1.6em}
+.btn:hover{background:var(--ink);color:#000}
+.row{display:flex;gap:1.2rem;padding:.75rem 0;border-top:1px solid #333;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:#9a9a9a}
+.row span:first-child{color:var(--ink)}
+.list{margin-top:2.2rem}
+#img{position:absolute;right:5vw;top:50%;width:min(44vw,76vh);height:min(44vw,76vh);margin-top:calc(min(44vw,76vh) / -2)}
+#img canvas{width:100%;height:100%;object-fit:cover;display:block}
+#img span{position:absolute;left:12%;bottom:5vh;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.corner{position:absolute;bottom:calc(3vh + env(safe-area-inset-bottom,0px));font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+#s4 .corner a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink)}
+header{position:absolute;z-index:5;top:calc(2.4vh + env(safe-area-inset-top,0px));left:3vw;right:3vw;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+header a{color:var(--ink);text-decoration:none}
+nav{display:flex;gap:3.2vw}
+.logo{font-family:Anton,Impact,sans-serif;font-size:1.1rem;letter-spacing:.05em}
+.cta{border:1px solid var(--ink);padding:.7em 1.3em}
+header a:focus-visible,.btn:focus-visible{outline:2px solid #fff;outline-offset:4px}
+#meta{position:absolute;z-index:5;left:3vw;right:3vw;bottom:calc(3vh + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;pointer-events:none}
+@media(max-width:760px){nav{display:none}#img{width:64vw;height:64vw;right:18vw;top:9vh;margin-top:0}.left{left:6vw;right:6vw;width:auto;top:50vh;transform:none}.row:nth-child(n+3){display:none}.left p{font-size:.9rem;margin:1rem 0}}
+</style>
+</head>
+<body>
+<div id="persp"><div id="stage">
+  <div id="bg"><i></i><b></b></div>
+  <div id="h1" class="big fit" data-f=".84"></div>
+  <div id="h4" class="big fit" data-f=".94"></div>
+  <div id="wipe"></div>
+  <section id="s1" class="lay"><a class="pill" href="#" data-p=".58">Read more</a></section>
+  <section id="s2" class="lay"><i class="gl" style="left:14vw;top:0;width:34vw;height:44vh"></i><i class="gl" style="right:9vw;bottom:0;width:24vw;height:40vh"></i><h2 id="t2"></h2></section>
+  <section id="s3" class="lay">
+    <div id="img"><canvas id="art"></canvas><span class="fade" id="cap"></span></div>
+    <div class="left">
+      <h3 id="t3"></h3>
+      <p class="fade" id="about"></p>
+      <a class="btn fade" id="cta3" href="#">View the work</a>
+      <div class="list fade" id="list"></div>
+    </div>
+  </section>
+  <section id="s4" class="lay">
+    <div class="corner" style="left:3vw;bottom:calc(8vh + 18vw)" id="avail"></div>
+  </section>
+  <header id="hd"><a class="logo" href="#" data-p="0" id="logo"></a><nav><a href="#" data-p="0">Index</a><a href="#" data-p=".58">Work</a><a href="#" data-p="1">Contact</a></nav><a class="cta" id="mail" href="#">Let’s talk</a></header>
+  <div id="meta"><span id="role"></span><span id="cnt">01 / 04</span></div>
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ===== EDIT YOUR CONTENT HERE ===== */
+const CONFIG = {
+  name: 'Your Name', initials: 'YN', role: 'Graphic designer, portfolio 2026',
+  statement: 'Less, but better.',
+  editorial: 'Identity, type and the space between.',
+  about: 'I design identities, posters and type systems. Black, white, and everything that can be removed.',
+  works: [['01', 'Project one', 'Brand identity'], ['02', 'Project two', 'Poster series'], ['03', 'Project three', 'Type system']],
+  contactTitle: 'Let’s talk', email: 'hello@yourname.com'
+};
+/* =================================== */
+const $ = id => document.getElementById(id);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ss = (a, b, x) => { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); };
+const tri = (p, a, b, c, d) => ss(a, b, p) * (1 - ss(c, d, p));
+const ease = x => 1 - Math.pow(1 - x, 4);
+const maxS = () => document.documentElement.scrollHeight - innerHeight;
+
+$('h1').textContent = CONFIG.name; $('t2').textContent = CONFIG.statement; $('t3').textContent = CONFIG.editorial;
+$('h4').textContent = CONFIG.contactTitle; $('about').textContent = CONFIG.about; $('logo').textContent = CONFIG.initials;
+$('role').textContent = CONFIG.role; $('cap').textContent = CONFIG.works[0][1];
+$('mail').href = 'mailto:' + CONFIG.email; $('cta3').dataset.p = '1';
+$('list').innerHTML = CONFIG.works.map(w => `<div class="row"><span>${w[0]}</span><span>${w[1]}</span><span>${w[2]}</span></div>`).join('');
+$('avail').innerHTML = `Available for new projects<br><a href="mailto:${CONFIG.email}">${CONFIG.email}</a>`;
+const split = el => { el.innerHTML = el.textContent.trim().split(/\s+/).map(w => `<span class="w"><i>${w}</i></span>`).join(' '); return [...el.querySelectorAll('i')]; };
+const rev = (arr, v) => arr.forEach((el, n) => { el.style.transform = `translateY(${(1 - ease(Math.min(1, Math.max(0, v * 1.7 - n * 0.25)))) * 105}%)`; });
+const W1 = split($('h1')), W2 = split($('t2')), W3 = split($('t3')), W4 = split($('h4'));
+const fitAll = () => document.querySelectorAll('.fit').forEach(el => { el.style.fontSize = '100px'; const s = 100 * innerWidth * parseFloat(el.dataset.f) / el.offsetWidth; el.style.fontSize = Math.min(s, innerHeight * 0.62) + 'px'; });
+fitAll(); document.fonts && document.fonts.ready.then(fitAll);
+document.querySelectorAll('[data-p]').forEach(a => a.onclick = e => { e.preventDefault(); scrollTo({ top: parseFloat(a.dataset.p) * maxS(), behavior: reduce ? 'auto' : 'smooth' }); });
+
+/* placeholder "photograph": replace with your own work */
+(() => {
+  const c = $('art'), x = c.getContext('2d'); c.width = 900; c.height = 1100;
+  let g = x.createLinearGradient(0, 0, 0, 1100); g.addColorStop(0, '#2a2a2a'); g.addColorStop(1, '#050505'); x.fillStyle = g; x.fillRect(0, 0, 900, 1100);
+  g = x.createRadialGradient(640, 300, 10, 640, 300, 280); g.addColorStop(0, '#fff'); g.addColorStop(0.35, '#b8b8b8'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, 900, 1100);
+  [[120, 520, 300, 520, '#0a0a0a'], [360, 380, 220, 660, '#d8d8d8'], [540, 650, 280, 400, '#1c1c1c']].forEach(s => { x.fillStyle = s[4]; x.beginPath(); x.moveTo(s[0], s[1]); x.lineTo(s[0] + s[2], s[1] - 60); x.lineTo(s[0] + s[2], s[1] + s[3]); x.lineTo(s[0], s[1] + s[3] + 40); x.fill(); });
+  for (let i = 0; i < 9000; i++) { x.fillStyle = 'rgba(255,255,255,' + Math.random() * 0.1 + ')'; x.fillRect(Math.random() * 900, Math.random() * 1100, 1.5, 1.5); }
+})();
+
+/* 3D: stone bust and floating fragments */
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight); renderer.setClearColor(0x000000, 0);
+renderer.domElement.id = 'gl'; $('stage').insertBefore(renderer.domElement, $('wipe'));
+const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100); camera.position.z = 9;
+scene.add(new THREE.AmbientLight(0xffffff, 0.12));
+const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(-4, 5, 5); scene.add(key);
+const rim = new THREE.DirectionalLight(0xffffff, 1.6); rim.position.set(5, 2, -5); scene.add(rim);
+const noise = (x, y, z) => Math.sin(x * 2.3 + z * 1.7) * Math.sin(y * 3.1 + x * 1.3) * Math.sin(z * 2.7 + y * 1.9);
+const chisel = (g, amp, f) => { const p = g.attributes.position; for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i), z = p.getZ(i), n = noise(x * f, y * f, z * f) * amp, l = Math.hypot(x, y, z) || 1; p.setXYZ(i, x + x / l * n, y + y / l * n, z + z / l * n); } g.computeVertexNormals(); return g; };
+const stone = new THREE.MeshStandardMaterial({ color: 0xe8e8e8, roughness: 0.65, metalness: 0.02, flatShading: true });
+const hollow = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const statue = new THREE.Group();
+const head = new THREE.Mesh(chisel(new THREE.IcosahedronGeometry(1, 3), 0.07, 2.2), stone); head.scale.set(0.85, 1.15, 0.9); head.position.y = 0.9;
+const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.5, 0.9, 10), stone); neck.position.y = -0.3;
+const sh = new THREE.Mesh(chisel(new THREE.IcosahedronGeometry(1, 3), 0.06, 1.6), stone); sh.scale.set(2.1, 0.85, 1.05); sh.position.y = -1.35;
+const nose = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.6, 0.25), stone); nose.position.set(0, 0.85, 0.9);
+const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.11, 12, 12), hollow); eyeL.position.set(-0.32, 1.05, 0.78);
+const eyeR = eyeL.clone(); eyeR.position.x = 0.32;
+/* marble angel: robe, torso, head, outstretched arms, fanned wings, rock base */
+const part = (g, x, y, z, rz) => { const m = new THREE.Mesh(g, stone); m.position.set(x, y, z); if (rz) m.rotation.z = rz; statue.add(m); return m; };
+part(chisel(new THREE.CylinderGeometry(0.4, 1.05, 2.8, 16, 6), 0.07, 3), 0, -0.55, 0);
+part(chisel(new THREE.CylinderGeometry(0.42, 0.4, 1.1, 12, 3), 0.04, 3), 0, 1.0, 0);
+part(new THREE.SphereGeometry(0.3, 16, 16), 0, 1.75, 0.02);
+part(new THREE.CylinderGeometry(0.09, 0.07, 1.8, 8), -1.0, 1.25, 0.1, 1.38);
+part(new THREE.CylinderGeometry(0.09, 0.07, 1.8, 8), 1.0, 1.25, 0.1, -1.38);
+part(chisel(new THREE.IcosahedronGeometry(1, 2), 0.1, 1.8), 0, -2.2, 0).scale.set(1.2, 0.45, 0.95);
+for (const side of [-1, 1]) for (let n = 0; n < 6; n++) {
+  const len = 3.1 - Math.abs(n - 2) * 0.32, g = new THREE.BoxGeometry(0.42, len, 0.07); g.translate(0, len / 2, 0);
+  const f = new THREE.Mesh(g, stone); f.position.set(side * 0.3, 0.75 + n * 0.03, -0.3 - n * 0.02); f.rotation.z = -side * (0.18 + n * 0.17); statue.add(f);
+}
+scene.add(statue);
+const debris = [];
+const shard = new THREE.MeshStandardMaterial({ color: 0x4a4a4a, roughness: 0.35, metalness: 0.7, flatShading: true });
+for (let i = 0; i < 18; i++) {
+  const g = new THREE.CylinderGeometry(0.2, 0.2, 1.4 + (i % 4) * 0.5, 6);
+  const m = new THREE.Mesh(g, shard), s = 0.25 + Math.random() * 0.8;
+  m.scale.setScalar(s); m.userData = { x: (Math.random() - 0.5) * 15, y: Math.random() * 12 - 6, z: -7 + Math.random() * 10, f: 0.3 + Math.random(), r: Math.random() * 0.4 + 0.1 };
+  if (Math.abs(m.userData.x) < 2.4 && m.userData.z > -1) m.userData.x += 4 * Math.sign(m.userData.x || 1);
+  scene.add(m); debris.push(m);
+}
+let cur = 0, px = 0, py = 0, mx = 0, my = 0; const T0 = performance.now(), fades = [...document.querySelectorAll('.fade')];
+addEventListener('pointermove', e => { px = e.clientX / innerWidth - 0.5; py = 0.5 - e.clientY / innerHeight; });
+addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); fitAll(); });
+
+(function tick() {
+  requestAnimationFrame(tick);
+  const now = performance.now(), t = now / 1000, mp = maxS() > 0 ? scrollY / maxS() : 0;
+  cur += (mp - cur) * (reduce ? 1 : 0.08); const p = cur;
+  const intro = reduce ? 1 : Math.min(1, Math.max(0, (now - T0 - 1700) / 1500));
+  mx += (px - mx) * 0.05; my += (py - my) * 0.05;
+  /* bust: zooms through the frame, then returns behind the closing headline */
+  const z = ss(0.2, 0.44, p), b = ss(0.64, 0.84, p); let sc, y, vis = true;
+  if (p < 0.52) { sc = 1 + z * 0.4; y = z * 9; vis = z < 0.99; } else { sc = 1.05; y = -6 + b * 4.2; vis = b > 0.01; }
+  statue.visible = vis; statue.scale.setScalar(sc * 0.78); statue.position.set(mx * 0.3, y + 0.5 + Math.sin(t * 0.5) * 0.08, 0);
+  statue.rotation.set(-my * 0.12, Math.sin(t * 0.25) * 0.15 + mx * 0.4 + z * 1.3, 0);
+  debris.forEach((m, i) => {
+    const d = m.userData, yy = ((d.y + p * (2 + d.f * 6) + 6) % 12 + 12) % 12 - 6;
+    m.position.set(d.x + mx * d.f * 1.4, yy + Math.sin(t * 0.4 + i) * 0.2, d.z);
+    if (!reduce) { m.rotation.x = t * d.r + i; m.rotation.y = t * d.r * 0.7; }
+  });
+  /* layers */
+  const v1 = intro * (1 - ss(0.1, 0.2, p)), v2 = tri(p, 0.22, 0.3, 0.36, 0.44), v3 = tri(p, 0.44, 0.52, 0.64, 0.7), v4 = ss(0.7, 0.82, p);
+  rev(W1, v1); rev(W2, v2); rev(W3, v3); rev(W4, v4);
+  $('bg').style.opacity = 1 - ss(0.14, 0.3, p); $('s1').style.visibility = v1 > 0.3 ? 'visible' : 'hidden'; $('s1').style.opacity = ss(0.3, 1, v1);
+  $('s2').style.visibility = v2 > 0.01 ? 'visible' : 'hidden'; $('s3').style.visibility = v3 > 0.01 ? 'visible' : 'hidden'; $('s4').style.visibility = v4 > 0.3 ? 'visible' : 'hidden';
+  fades.forEach(e => e.style.opacity = ss(0.3, 0.9, v3));
+  const e3 = ss(0.42, 0.52, p), im = ss(0.46, 0.58, p);
+  $('wipe').style.clipPath = `polygon(0 0,${e3 * 130}% 0,${e3 * 130 - 30}% 100%,0 100%)`; $('wipe').style.opacity = 1 - ss(0.66, 0.72, p);
+  $('img').style.clipPath = `polygon(50% ${50 - 50 * im}%,${50 + 50 * im}% 50%,50% ${50 + 50 * im}%,${50 - 50 * im}% 50%)`;
+  $('hd').style.opacity = intro; $('meta').style.opacity = intro;
+  $('cnt').textContent = '0' + (p < 0.22 ? 1 : p < 0.46 ? 2 : p < 0.68 ? 3 : 4) + ' / 04';
+  renderer.render(scene, camera);
+})();
+</script>
+</body>
+</html>
